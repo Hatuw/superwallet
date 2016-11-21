@@ -16,10 +16,6 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.get('/api.wow',function(req,res){
-	 handleRequest(req,res);
-});
-
 app.post('/api.wow',function(req,res){
 	res.header('Access-Control-Allow-Origin','*');
 	res.header('Content-Type','application/json');
