@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	  <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	  <script src="./angular.js"></script>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 };
 	var app = angular.module('myApp',[]);
 	app.controller('ajaxReq',function($scope,$http,$httpParamSerializerJQLike) {
-	$http.post(SERVERURL, $httpParamSerializerJQLike({"network":"bitcoin","utxo":"mgMCdTHJNPVYmBcPJvUZV8EcsUVGUQT7gw"}), config).success(function(data){$scope.value1 = data;}); //success is different from then!!!!!!!!!!!!!!!!!!!!
+	$http.post(SERVERURL, $httpParamSerializerJQLike({"network":"bitcoin","allBalance":"mgMCdTHJNPVYmBcPJvUZV8EcsUVGUQT7gw"}), config).success(function(data){$scope.value1 = data;}); //success is different from then!!!!!!!!!!!!!!!!!!!!
 	$http.post(SERVERURL, $httpParamSerializerJQLike({"network":"ethereum","balance":"df5d17e416eff3220018227794c436398aba50e0"}), config).success(function(data){$scope.value2 = data;});});
 </script>
 

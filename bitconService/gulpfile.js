@@ -46,8 +46,8 @@ gulp.task('less', function (cb) {
       .pipe(gulp.dest(lessOutputFolder))
       .pipe(notify('MEW Styles Complete'))
       //cx css
-      .pipe(gulp.dest(cxLessOutputFolder))
-      .pipe(notify('CX Styles Complete'));
+     // .pipe(gulp.dest(cxLessOutputFolder))
+     // .pipe(notify('CX Styles Complete'));
 });
 
 
@@ -70,8 +70,8 @@ gulp.task('staticJS', function () {
       .pipe(gulp.dest('./dist/js/'))
       .pipe(notify('MEW StaticJS Complete'))
       // mew staticxc
-      .pipe(gulp.dest('./chrome-extension/js/'))
-      .pipe(notify('CX StaticJS Complete'));
+      //.pipe(gulp.dest('./chrome-extension/js/'))
+      //.pipe(notify('CX StaticJS Complete'));
 });
 
 gulp.task('minJS',['browserify'],function () {
@@ -81,15 +81,15 @@ gulp.task('minJS',['browserify'],function () {
       .pipe(gulp.dest('./dist/js/'))
       .pipe(notify('MEW MinJS'));
 });
-
+/*
 gulp.task('cxMinJS',['cxBrowserify'],function () {
   return gulp
     .src('./chrome-extension/js/etherwallet-master.js')
       .pipe(babel({ presets: ['es2016'], compact: false}))
       .pipe(gulp.dest('./chrome-extension/js/'))
-      .pipe(notify('CX MinJS'));
+      //.pipe(notify('CX MinJS'));
 });
-
+*/
 
 
 
@@ -98,9 +98,9 @@ gulp.task('browserify', shell.task([
   'browserify '+mainjs+' -o dist/js/etherwallet-master.js'
 ]));
 
-gulp.task('cxBrowserify', shell.task([
-  'browserify '+mainjs+' -o chrome-extension/js/etherwallet-master.js'
-]));
+//gulp.task('cxBrowserify', shell.task([
+//  'browserify '+mainjs+' -o chrome-extension/js/etherwallet-master.js'
+//]));
 
 
 
@@ -116,8 +116,8 @@ gulp.task('copy-images', function() {
    gulp.src(imagesFolder)
    .pipe(gulp.dest(imagesOutputFolder))
    .pipe(notify({message:'MEW Images', onLast:true}))
-   .pipe(gulp.dest(cxImagesOutputFolder))
-   .pipe(notify({message:'CX Images', onLast:true}));
+ //  .pipe(gulp.dest(cxImagesOutputFolder))
+ //  .pipe(notify({message:'CX Images', onLast:true}));
 });
 
 
@@ -133,8 +133,8 @@ gulp.task('copy-fonts', function() {
    gulp.src(fontsFolder)
    .pipe(gulp.dest(fontsOutputFolder))
    .pipe(notify({message:'MEW Fonts', onLast:true}))
-   .pipe(gulp.dest(cxFontsOutputFolder))
-   .pipe(notify({message:'CX Fonts', onLast:true}));
+   //.pipe(gulp.dest(cxFontsOutputFolder))
+   //.pipe(notify({message:'CX Fonts', onLast:true}));
 });
 
 
@@ -145,12 +145,13 @@ gulp.task('copy-fonts', function() {
 var cxSource = "./app/includes/browser_action/*.*";
 var cxDest = "./chrome-extension/browser_action";
 
+/*
 gulp.task('copy-cx', function() {
    gulp.src( cxSource )
    .pipe(gulp.dest( cxDest ))
    .pipe(notify({message:'CX Browser Action Files', onLast:true}))
 });
-
+*/
 
 
 
@@ -166,8 +167,8 @@ gulp.task('buildHTML', function () {
       }))
     .pipe(gulp.dest('./dist/'))
     .pipe(notify({message:'MEW HTML Pages Complete', onLast:true}))
-    .pipe(gulp.dest('./chrome-extension/'))
-    .pipe(notify({message:'CX HTML Pages Complete', onLast:true}));
+   // .pipe(gulp.dest('./chrome-extension/'))
+  //  .pipe(notify({message:'CX HTML Pages Complete', onLast:true}));
 });
 
 
@@ -179,9 +180,9 @@ gulp.task('buildHTML', function () {
 gulp.task('watchJS', function() {
   gulp.watch([jsFiles, AllJsFiles],[
     'browserify',
-    'cxBrowserify',
+   // 'cxBrowserify',
     'minJS',
-    'cxMinJS'
+   // 'cxMinJS'
   ]);
 });
 gulp.task('watchLess', function() {
@@ -193,16 +194,16 @@ gulp.task('watchPAGES', function() {
 gulp.task('watchTPL', function() {
     gulp.watch(tplFiles, ['buildHTML']);
 });
-gulp.task('watchCX', function() {
-    gulp.watch(cxSource, ['copy-cx']);
-});
+//gulp.task('watchCX', function() {
+//   gulp.watch(cxSource, ['copy-cx']);
+//});
 
 
 
 
 
 
-gulp.task('build', ['buildHTML','less', 'staticJS', 'browserify', 'cxBrowserify', 'minJS', 'cxMinJS', 'copy-images','copy-fonts', 'copy-cx']);
-gulp.task('watch', ['watchJS' , 'watchLess', 'watchPAGES', 'watchTPL', 'watchCX']);
+gulp.task('build', ['buildHTML','less', 'staticJS', 'browserify', 'minJS',  'copy-images','copy-fonts']);
+gulp.task('watch', ['watchJS' , 'watchLess', 'watchPAGES', 'watchTPL',]);
 
 gulp.task('default', ['build', 'watch']);

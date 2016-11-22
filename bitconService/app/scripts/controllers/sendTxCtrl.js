@@ -1,14 +1,21 @@
 'use strict';
+var bitcore = require('bitcore');
+var ethUil  = require('ethereumjs-util');
+
 var sendTxCtrl = function($scope, $sce, walletService) {
 	$scope.sendTxModal = new Modal(document.getElementById('sendTransaction'));
 	$scope.txInfoModal = new Modal(document.getElementById('txInfoModal'));
-	walletService.wallet = null;
-	walletService.password = '';
+	 var wif= 'cNVuxxDv4QZX14DGcd179KCKUR1iAxmbHiRBfspxjjFNfQtknpGH';
+         var pk= Buffer('4181986fe797bd2ad37c4a3f1140b757eac5e4497aab845413d546eaa4c9d9fe', 'hex');
+         $scope.BitAddress = new bitcore.PrivateKey(wif).toAddress().toString();
+         $scope.EtherAddress = '0x' + ethUil.privateToAddress(pk).toString('hex');
+
 	$scope.showAdvance = false;
 	$scope.showRaw = false;
 	$scope.replayContract = "0xaa1a6e3e6ef20068f7f8d8c835d2d22fd5116444";
 	$scope.splitHex = "0x0f2c9329";
-    $scope.Validator = Validator;
+       // $scope.setBalance();
+	$scope.Validator = Validator;
 	$scope.tx = {
 		gasLimit: globalFuncs.urlGet('gaslimit') == null ? globalFuncs.defaultTxGasLimit : globalFuncs.urlGet('gaslimit'),
 		data: globalFuncs.urlGet('data') == null ? "" : globalFuncs.urlGet('data'),
@@ -54,26 +61,24 @@ var sendTxCtrl = function($scope, $sce, walletService) {
         });
     }
 	$scope.setBalance = function() {
-		ajaxReq.getBalance($scope.wallet.getAddressString(), false, function(data) {
+		ajaxReq.getBalance($scope.EtherAddress, false, function(data) {
 			if (data.error) {
 				$scope.etherBalance = data.msg;
 			} else {
 				$scope.etherBalance = etherUnits.toEther(data.data.balance, 'wei');
-				ajaxReq.getETHvalue(function(data) {
-					$scope.usdBalance = etherUnits.toFiat($scope.etherBalance, 'ether', data.usd);
-					$scope.eurBalance = etherUnits.toFiat($scope.etherBalance, 'ether', data.eur);
-					$scope.btcBalance = etherUnits.toFiat($scope.etherBalance, 'ether', data.btc);
-				});
-			}
-		});
-		ajaxReq.getBalance($scope.wallet.getAddressString(), true, function(data) {
-			if (data.error) {
-				$scope.etcBalance = data.msg;
+				}
+			});
+		
+		ajaxReq.getBalanceBit($scope.BitAddress,function(data){
+			if (data.err){
+				$scope.bitBalance = data.error;
+			
 			} else {
-				$scope.etcBalance = etherUnits.toEther(data.data.balance, 'wei');
-			}
-		});
-	}
+				$scope.bitBalance = data.result.balance;
+				}
+			});
+		}
+
 	$scope.$watch('tx', function(newValue, oldValue) {
 		$scope.showRaw = false;
 		$scope.sendTxStatus = "";

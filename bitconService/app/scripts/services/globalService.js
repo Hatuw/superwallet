@@ -47,7 +47,7 @@ var globalService = function($http, $httpParamSerializerJQLike) {
       url: "send-transaction",
       mew: true,
       cx: true
-    },
+   },
     sendTransaction2: {
       id: 6,
       name: "NAV_SendBit",

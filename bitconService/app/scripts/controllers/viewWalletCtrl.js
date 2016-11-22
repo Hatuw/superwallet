@@ -50,4 +50,5 @@ var viewWalletCtrl = function($scope, walletService) {
 		}]));
 	}
 };
+//how to replace in vi ? :1,$ s/str1/str2/g
 module.exports = viewWalletCtrl;

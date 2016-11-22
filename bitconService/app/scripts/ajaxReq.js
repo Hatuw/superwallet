@@ -3,7 +3,7 @@ var http;
 var ajaxReq = function() {}
 ajaxReq.http = null;
 ajaxReq.postSerializer = null;
-ajaxReq.SERVERURL = "https://172.22.28.143/api.mew";
+ajaxReq.SERVERURL = "https://192.168.246.129/api.mew";
 ajaxReq.COINMARKETCAPAPI = "https://coinmarketcap-nexuist.rhcloud.com/api/";
 ajaxReq.pendingPosts = [];
 ajaxReq.config = {
@@ -19,10 +19,19 @@ ajaxReq.getCurrentBlock = function(isClassic, callback) {
 }
 ajaxReq.getBalance = function(addr, isClassic, callback) {
 	this.post({
-		balance: addr,
+	network: "ethereum",
+	balance: addr,
         isClassic: isClassic
 	}, callback);
 }
+
+ajaxReq.getBalanceBit = function(addr,callback){
+	this.post({
+		network: "bitcoin",
+		allBalance: addr
+	},callback);
+}
+
 ajaxReq.getTransactionData = function(addr, isClassic, callback) {
 	this.post({
 		txdata: addr,
